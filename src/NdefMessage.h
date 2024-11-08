@@ -1,7 +1,7 @@
 #ifndef NdefMessage_h
 #define NdefMessage_h
 
-#include <Ndef.h>
+#include <ParticleNDEF.h>
 #include <NdefRecord.h>
 
 #define MAX_NDEF_RECORDS 4
@@ -30,7 +30,7 @@ class NdefMessage
         NdefRecord getRecord(int index);
         NdefRecord operator[](int index);
 
-#ifdef NDEF_USE_SERIAL
+#ifdef NDEF_LOGGING
         void print();
 #endif
     private:

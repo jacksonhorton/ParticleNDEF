@@ -2,8 +2,8 @@
 #define NdefRecord_h
 
 #include <Due.h>
-#include <Arduino.h>
-#include <Ndef.h>
+#include <Particle.h>
+#include <ParticleNDEF.h>
 
 #define TNF_EMPTY 0x0
 #define TNF_WELL_KNOWN 0x01
@@ -43,7 +43,7 @@ class NdefRecord
         void setPayload(const byte *payload, const int numBytes);
         void setId(const byte *id, const unsigned int numBytes);
 
-#ifdef NDEF_USE_SERIAL
+#ifdef NDEF_LOGGING
         void print();
 #endif
     private:

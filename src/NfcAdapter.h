@@ -2,9 +2,9 @@
 #define NfcAdapter_h
 
 #include <PN532Interface.h>
-#include <PN532.h>
+#include <ParticlePN532.h>
 #include <NfcTag.h>
-#include <Ndef.h>
+#include <ParticleNDEF.h>
 
 // Drivers
 #include <MifareClassic.h>
@@ -36,7 +36,7 @@ class NfcAdapter {
         // reset tag back to factory state
         boolean clean();
     private:
-        PN532* shield;
+        ParticlePN532* shield;
         byte uid[7];  // Buffer to store the returned UID
         unsigned int uidLength; // Length of the UID (4 or 7 bytes depending on ISO14443A card type)
         unsigned int guessTagType();

@@ -14,7 +14,7 @@ NdefRecord::NdefRecord()
 
 NdefRecord::NdefRecord(const NdefRecord& rhs)
 {
-    //Serial.println("NdefRecord Constructor 2 (copy)");
+    //Log.info("NdefRecord Constructor 2 (copy)");
 
     _tnf = rhs._tnf;
     _typeLength = rhs._typeLength;
@@ -48,7 +48,7 @@ NdefRecord::NdefRecord(const NdefRecord& rhs)
 
 NdefRecord::~NdefRecord()
 {
-    //Serial.println("NdefRecord Destructor");
+    //Log.info("NdefRecord Destructor");
     if (_typeLength)
     {
         free(_type);
@@ -67,7 +67,7 @@ NdefRecord::~NdefRecord()
 
 NdefRecord& NdefRecord::operator=(const NdefRecord& rhs)
 {
-    //Serial.println("NdefRecord ASSIGN");
+    //Log.info("NdefRecord ASSIGN");
 
     if (this != &rhs)
     {
@@ -301,54 +301,63 @@ void NdefRecord::setId(const byte * id, const unsigned int numBytes)
     memcpy(_id, id, numBytes);
     _idLength = numBytes;
 }
-#ifdef NDEF_USE_SERIAL
+#ifdef NDEF_LOGGING
 
 void NdefRecord::print()
 {
-    Serial.println(F("  NDEF Record"));
-    Serial.print(F("    TNF 0x"));Serial.print(_tnf, HEX);Serial.print(" ");
+    String tnfString = "";
     switch (_tnf) {
     case TNF_EMPTY:
-        Serial.println(F("Empty"));
+        tnfString = "Empty";
         break;
     case TNF_WELL_KNOWN:
-        Serial.println(F("Well Known"));
+        tnfString = "Well Known";
         break;
     case TNF_MIME_MEDIA:
-        Serial.println(F("Mime Media"));
+        tnfString = "Mime Media";
         break;
     case TNF_ABSOLUTE_URI:
-        Serial.println(F("Absolute URI"));
+        tnfString = "Absolute URI";
         break;
     case TNF_EXTERNAL_TYPE:
-        Serial.println(F("External"));
+        tnfString = "External";
         break;
     case TNF_UNKNOWN:
-        Serial.println(F("Unknown"));
+        tnfString = "Unknown";
         break;
     case TNF_UNCHANGED:
-        Serial.println(F("Unchanged"));
+        tnfString = "Unchanged";
         break;
     case TNF_RESERVED:
-        Serial.println(F("Reserved"));
+        tnfString = "Reserved";
         break;
     default:
-        Serial.println();
+        tnfString = "";
     }
-    Serial.print(F("    Type Length 0x"));Serial.print(_typeLength, HEX);Serial.print(" ");Serial.println(_typeLength);
-    Serial.print(F("    Payload Length 0x"));Serial.print(_payloadLength, HEX);;Serial.print(" ");Serial.println(_payloadLength);
-    if (_idLength)
-    {
-        Serial.print(F("    Id Length 0x"));Serial.println(_idLength, HEX);
-    }
-    Serial.print(F("    Type "));PrintHexChar(_type, _typeLength);
-    // TODO chunk large payloads so this is readable
-    Serial.print(F("    Payload "));PrintHexChar(_payload, _payloadLength);
-    if (_idLength)
-    {
-        Serial.print(F("    Id "));PrintHexChar(_id, _idLength);
-    }
-    Serial.print(F("    Record is "));Serial.print(getEncodedSize());Serial.println(" bytes");
 
+    Log.info("\tNDEF Record");
+    Log.info("\t\tTNF 0x%x %s", _tnf, tnfString);
+    Log.info("\t\tType Length 0x%x %d", _typeLength, _typeLength);
+    Log.info("\t\tPayload Length 0x%x %d", _payloadLength, _payloadLength);
+
+    if (_idLength)
+    {
+        Log.info("\t\tId Length 0x%x", _idLength);
+    }
+
+    Log.info("\t\tType:");
+    PrintHexChar(_type, _typeLength); // Assuming PrintHexChar is updated to use Particle logging
+
+    // TODO chunk large payloads so this is readable
+    Log.info("\t\tPayload:");
+    PrintHexChar(_payload, _payloadLength); // Assuming PrintHexChar is updated to use Particle logging
+
+    if (_idLength)
+    {
+        Log.info("\t\tId:");
+        PrintHexChar(_id, _idLength); // Assuming PrintHexChar is updated to use Particle logging
+    }
+
+    Log.info("\t\tRecord is %d bytes", getEncodedSize());
 }
 #endif

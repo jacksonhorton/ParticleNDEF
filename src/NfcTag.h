@@ -1,8 +1,7 @@
 #ifndef NfcTag_h
 #define NfcTag_h
 
-#include <inttypes.h>
-#include <Arduino.h>
+#include <Particle.h>
 #include <NdefMessage.h>
 
 class NfcTag
@@ -21,7 +20,7 @@ class NfcTag
         String getTagType();
         boolean hasNdefMessage();
         NdefMessage getNdefMessage();
-#ifdef NDEF_USE_SERIAL
+#ifdef NDEF_LOGGING
         void print();
 #endif
     private:

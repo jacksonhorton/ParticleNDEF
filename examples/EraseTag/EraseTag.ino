@@ -3,7 +3,7 @@
 #if 0
 #include <SPI.h>
 #include <PN532_SPI.h>
-#include <PN532.h>
+#include <ParticlePN532.h>
 #include <NfcAdapter.h>
 
 PN532_SPI pn532spi(SPI, 10);
@@ -12,7 +12,7 @@ NfcAdapter nfc = NfcAdapter(pn532spi);
 
 #include <Wire.h>
 #include <PN532_I2C.h>
-#include <PN532.h>
+#include <ParticlePN532.h>
 #include <NfcAdapter.h>
 
 PN532_I2C pn532_i2c(Wire);

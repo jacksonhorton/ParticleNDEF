@@ -8,7 +8,7 @@ NdefMessage::NdefMessage(void)
 NdefMessage::NdefMessage(const byte * data, const int numBytes)
 {
     #ifdef NDEF_DEBUG
-    Serial.print(F("Decoding "));Serial.print(numBytes);Serial.println(F(" bytes"));
+    Log.info("Decoding %d bytes", numBytes);
     PrintHexChar(data, numBytes);
     //DumpHex(data, numBytes, 16);
     #endif
@@ -157,8 +157,8 @@ boolean NdefMessage::addRecord(NdefRecord& record)
     }
     else
     {
-#ifdef NDEF_USE_SERIAL
-        Serial.println(F("WARNING: Too many records. Increase MAX_NDEF_RECORDS."));
+#ifdef NDEF_LOGGING
+        Log.warn("WARNING: Too many records. Increase MAX_NDEF_RECORDS.");
 #endif
         return false;
     }
@@ -263,12 +263,10 @@ NdefRecord NdefMessage::operator[](int index)
     return getRecord(index);
 }
 
-#ifdef NDEF_USE_SERIAL
+#ifdef NDEF_LOGGING
 void NdefMessage::print()
 {
-    Serial.print(F("\nNDEF Message "));Serial.print(_recordCount);Serial.print(F(" record"));
-    _recordCount == 1 ? Serial.print(", ") : Serial.print("s, ");
-    Serial.print(getEncodedSize());Serial.println(F(" bytes"));
+    Log.info("\nNDEF Message %d record%s, %d bytes", _recordCount, (_recordCount == 1 ? "" : "s"), getEncodedSize());
 
     for (unsigned int i = 0; i < _recordCount; i++)
     {

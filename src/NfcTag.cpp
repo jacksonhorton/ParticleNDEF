@@ -105,15 +105,16 @@ NdefMessage NfcTag::getNdefMessage()
 {
     return *_ndefMessage;
 }
-#ifdef NDEF_USE_SERIAL
+#ifdef NDEF_LOGGING
 
 void NfcTag::print()
 {
-    Serial.print(F("NFC Tag - "));Serial.println(_tagType);
-    Serial.print(F("UID "));Serial.println(getUidString());
+    Log.info("NFC Tag - %s", _tagType);
+    Log.info("UID %s", getUidString().c_str());
+
     if (_ndefMessage == NULL)
     {
-        Serial.println(F("\nNo NDEF Message"));
+        Log.info("\nNo NDEF Message");
     }
     else
     {
