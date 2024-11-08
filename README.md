@@ -20,7 +20,7 @@ To use the Ndef library in your code, include the following in your sketch:
 ```
 #include <Wire.h>
 #include <PN532_I2C.h>
-#include <PN532.h>
+#include <ParticlePN532.h>
 #include <NfcAdapter.h>
 
 PN532_I2C pn532_i2c(Wire);
