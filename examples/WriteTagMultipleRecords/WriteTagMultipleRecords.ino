@@ -1,41 +1,42 @@
-#if 0
-#include <SPI.h>
-#include <PN532_SPI.h>
-#include <ParticlePN532.h>
-#include <NfcAdapter.h>
-
-PN532_SPI pn532spi(SPI, 10);
-NfcAdapter nfc = NfcAdapter(pn532spi);
-#else
 
 #include <Wire.h>
 #include <PN532_I2C.h>
 #include <ParticlePN532.h>
 #include <NfcAdapter.h>
 
+// Let Device OS manage the connection to the Particle Cloud
+SYSTEM_MODE(AUTOMATIC);
+
+SerialLogHandler logHandler(LOG_LEVEL_INFO);
+
 PN532_I2C pn532_i2c(Wire);
 NfcAdapter nfc = NfcAdapter(pn532_i2c);
-#endif
 
-void setup() {
-    Serial.begin(9600);
-    Serial.println("NDEF Writer");
+void setup()
+{
+    Log.info("NDEF Writer");
     nfc.begin();
 }
 
-void loop() {
-    Serial.println("\nPlace a formatted Mifare Classic NFC tag on the reader.");
-    if (nfc.tagPresent()) {
+void loop()
+{
+    Log.info("\nPlace a formatted Mifare Classic or Ultralight NFC tag on the reader.");
+    if (nfc.tagPresent())
+    {
         NdefMessage message = NdefMessage();
-        message.addTextRecord("Hello, Arduino!");
-        message.addUriRecord("http://arduino.cc");
-        message.addTextRecord("Goodbye, Arduino!");
-        boolean success = nfc.write(message);
-        if (success) {
-            Serial.println("Success. Try reading this tag with your phone.");
-        } else {
-            Serial.println("Write failed");
+        message.addTextRecord("Hello, Particle!");
+        message.addUriRecord("http://particle.io");
+        message.addTextRecord("Goodbye, Particle!");
+
+        bool success = nfc.write(message);
+        if (success)
+        {
+            Log.info("Success. Try reading this tag with your phone.");
+        }
+        else
+        {
+            Log.warn("Write failed.");
         }
     }
-    delay(3000);
+    delay(5000);
 }

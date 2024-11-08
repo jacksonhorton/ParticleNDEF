@@ -104,7 +104,7 @@ boolean NfcAdapter::clean()
     else
     {
 #ifdef NDEF_LOGGING
-        Log.info("No driver for card type %s", type.c_str());
+        Log.info("No driver for card type %s", type);
 #endif
         return false;
     }
@@ -144,7 +144,7 @@ NfcTag NfcAdapter::read()
     }
     else
     {
-        // Log.info("No driver for card type %s", type.c_str()); // TODO should set type here
+        // Log.info("No driver for card type %s", type); // TODO should set type here
         return NfcTag(uid, uidLength);
     }
 
@@ -184,7 +184,7 @@ boolean NfcAdapter::write(NdefMessage& ndefMessage)
     else
     {
 #ifdef NDEF_LOGGING
-        Log.info("No driver for card type %s", type.c_str());
+        Log.info("No driver for card type %s", type);
 #endif
         success = false;
     }

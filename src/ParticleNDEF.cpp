@@ -33,7 +33,7 @@ void PrintChar(const byte *data, const long numBytes)
       charString += (char)data[szPos];
   }
 
-  Log.info("\t\tCHAR:\t%s", hexString.c_str());
+  Log.info("\t\tCHAR:\t%s", charString.c_str());
 }
 
 // Borrowed from Adafruit_NFCShield_I2C

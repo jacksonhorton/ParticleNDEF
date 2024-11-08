@@ -349,7 +349,6 @@ void NdefRecord::print()
     PrintHexChar(_type, _typeLength); // Assuming PrintHexChar is updated to use Particle logging
 
     // TODO chunk large payloads so this is readable
-    Log.info("\t\tPayload:");
     PrintHexChar(_payload, _payloadLength); // Assuming PrintHexChar is updated to use Particle logging
 
     if (_idLength)
